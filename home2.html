@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AD/DEV | Shane Sanchez</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/IBM-Plex-Mono/1.3.0/css/ibm-plex-mono.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #DFFF00;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            border: 1px solid #DFFF00;
+            box-shadow: 0 0 15px rgba(223, 255, 0, 0.4);
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #DFFF00;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(223, 255, 0, 0.7);
+        }
+        
+        .terminal-prefix {
+            color: #DFFF00;
+            margin-right: 0.5rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #DFFF00;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(223, 255, 0, 0.9);
+        }
+        
+        section {
+            margin-bottom: 4rem;
+            padding: 1rem;
+            border: 1px solid #DFFF00;
+            position: relative;
+            box-shadow: 0 0 10px rgba(223, 255, 0, 0.2) inset;
+        }
+        
+        section::before {
+            content: attr(id) ">";
+            position: absolute;
+            top: -12px;
+            left: 10px;
+            background-color: #0a0a0a;
+            padding: 0 10px;
+            color: #DFFF00;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px rgba(223, 255, 0, 0.5);
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #DFFF00;
+            padding-bottom: 0.5rem;
+            text-shadow: 0 0 5px rgba(223, 255, 0, 0.5);
+        }
+        
+        .bio-content {
+            max-width: 800px;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+        
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .work-item {
+            background-color: #0f0f0f;
+            padding: 1.5rem;
+            border: 1px solid #DFFF00;
+            box-shadow: 0 0 8px rgba(223, 255, 0, 0.2);
+        }
+        
+        .work-item h3 {
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(223, 255, 0, 0.5);
+        }
+        
+        .drops-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .drop-item {
+            background-color: #0f0f0f;
+            padding: 1.5rem;
+            border: 1px solid #DFFF00;
+            position: relative;
+            box-shadow: 0 0 8px rgba(223, 255, 0, 0.2);
+        }
+        
+        .drop-item h3 {
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(223, 255, 0, 0.5);
+        }
+        
+        .comment-section {
+            margin-top: 1rem;
+            border-top: 1px dashed #DFFF00;
+            padding-top: 1rem;
+        }
+        
+        .comments {
+            margin-bottom: 1rem;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .comment {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background-color: #101010;
+            border-left: 3px solid #DFFF00;
+        }
+        
+        .comment-form input {
+            width: 70%;
+            padding: 0.5rem;
+            background-color: #0f0f0f;
+            border: 1px solid #DFFF00;
+            color: #fff;
+            margin-right: 0.5rem;
+            box-shadow: 0 0 5px rgba(223, 255, 0, 0.3) inset;
+        }
+        
+        .comment-form button {
+            padding: 0.5rem;
+            background-color: #DFFF00;
+            color: #0a0a0a;
+            border: none;
+            cursor: pointer;
+            font-family: 'IBM Plex Mono', monospace;
+            box-shadow: 0 0 8px rgba(223, 255, 0, 0.5);
+        }
+        
+        .comment-form button:hover {
+            background-color: #F0FF41;
+            box-shadow: 0 0 12px rgba(223, 255, 0, 0.8);
+        }
+        
+        .image-container {
+            width: 100%;
+            height: 180px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            border: 1px solid #DFFF00;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0f0f0f;
+            box-shadow: 0 0 8px rgba(223, 255, 0, 0.2) inset;
+        }
+        
+        .reach-form {
+            max-width: 600px;
+            background-color: #0f0f0f;
+            padding: 2rem;
+            border: 1px solid #DFFF00;
+            box-shadow: 0 0 10px rgba(223, 255, 0, 0.2);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            text-shadow: 0 0 3px rgba(223, 255, 0, 0.5);
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #DFFF00;
+            background-color: #0a0a0a;
+            color: #DFFF00;
+            font-family: 'IBM Plex Mono', monospace;
+            box-shadow: 0 0 5px rgba(223, 255, 0, 0.3) inset;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(223, 255, 0, 0.6);
+        }
+        
+        button {
+            background-color: #DFFF00;
+            color: #0a0a0a;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 0 8px rgba(223, 255, 0, 0.5);
+        }
+        
+        button:hover {
+            background-color: #F0FF41;
+            box-shadow: 0 0 12px rgba(223, 255, 0, 0.8);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: #DFFF00;
+            border-top: 1px solid #DFFF00;
+            margin-top: 2rem;
+            text-shadow: 0 0 3px rgba(223, 255, 0, 0.5);
+        }
+        
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #DFFF00;
+            animation: blink 1s step-end infinite;
+            margin-left: 5px;
+            box-shadow: 0 0 8px rgba(223, 255, 0, 0.7);
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .terminal-window {
+            border: 1px solid #DFFF00;
+            padding: 5px;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 10px rgba(223, 255, 0, 0.3);
+        }
+        
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #DFFF00;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo"><span class="terminal-prefix">$</span>AD/DEV</div>
+            <nav>
+                <ul>
+                    <li><a href="#bios">$ Bios</a></li>
+                    <li><a href="#work">$ Work</a></li>
+                    <li><a href="#drops">$ Drops</a></li>
+                    <li><a href="#reach">$ Reach</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <section id="bios">
+            <h2><span class="terminal-prefix">$</span>BIOS</h2>
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <span>biography.txt</span>
+                    <span>shane@addev:~</span>
+                </div>
+                <div class="bio-content">
+                    <p>&gt; SHANE SANCHEZ, A NATIVE CALIFORNIAN BORN IN 1989, CHANNELS HIS INNATE CREATIVE ENERGY INTO THE REALM OF SALES AND OPERATIONS ANALYSIS. WITH AN EARLY AFFINITY FOR AVANT-GARDE ART, EXPERIMENTAL MUSIC, AND POSTHUMAN PHILOSOPHY, SHANE'S JOURNEY LED HIM TO A PIVOTAL ROLE AS A SALES AND OPERATIONS ANALYST AT CONTRACT SERVICES GROUP, INC.</p>
+                    <br>
+                    <p>&gt; THIS ROLE HAS BECOME THE CORNERSTONE OF HIS CAREER, WHERE HE METICULOUSLY ANALYZES DATA TO DRIVE BUSINESS DECISIONS AND ENHANCE OPERATIONAL EFFICIENCY.</p>
+                    <span class="cursor"></span>
+                </div>
+            </div>
+        </section>
+        
+        <section id="work">
+            <h2><span class="terminal-prefix">$</span>WORK</h2>
+            <div class="work-grid">
+                <div class="work-item">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Sales Analysis Visualization">
+                    </div>
+                    <h3>// Sales Analysis</h3>
+                    <p>Meticulously analyzing sales data to identify trends and opportunities for growth.</p>
+                </div>
+                <div class="work-item">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Operations Management Dashboard">
+                    </div>
+                    <h3>// Operations Management</h3>
+                    <p>Streamlining processes to enhance operational efficiency and reduce costs.</p>
+                </div>
+                <div class="work-item">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Data Visualization Example">
+                    </div>
+                    <h3>// Data Visualization</h3>
+                    <p>Creating insightful visualizations to communicate complex data patterns to stakeholders.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="drops">
+            <h2><span class="terminal-prefix">$</span>DROPS</h2>
+            <div class="drops-container">
+                <div class="drop-item">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Creative Concept 01">
+                    </div>
+                    <h3>// DROP_01</h3>
+                    <p>SHANE SANCHEZ, A NATIVE CALIFORNIAN BORN IN 1989, CHANNELS HIS INNATE CREATIVE ENERGY INTO THE REALM OF SALES AND OPERATIONS ANALYSIS.</p>
+                    <div class="comment-section">
+                        <h4>// Comments</h4>
+                        <div class="comments" id="comments-1">
+                            <div class="comment">Interesting approach to data analysis!</div>
+                        </div>
+                        <div class="comment-form">
+                            <input type="text" id="comment-input-1" placeholder="Add comment...">
+                            <button onclick="addComment(1)">POST</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="drop-item">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Creative Concept 02">
+                    </div>
+                    <h3>// DROP_02</h3>
+                    <p>WITH AN EARLY AFFINITY FOR AVANT-GARDE ART, EXPERIMENTAL MUSIC, AND POSTHUMAN PHILOSOPHY, ENHANCE OPERATIONAL EFFICIENCY.</p>
+                    <div class="comment-section">
+                        <h4>// Comments</h4>
+                        <div class="comments" id="comments-2">
+                            <div class="comment">Love how philosophy influences your approach!</div>
+                        </div>
+                        <div class="comment-form">
+                            <input type="text" id="comment-input-2" placeholder="Add comment...">
+                            <button onclick="addComment(2)">POST</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="reach">
+            <h2><span class="terminal-prefix">$</span>REACH</h2>
+            <div class="reach-form">
+                <div class="terminal-header">
+                    <span>contact_form.sh</span>
+                    <span>shane@addev:~</span>
+                </div>
+                <form>
+                    <div class="form-group">
+                        <label for="name"># Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"># Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message"># Message:</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit">EXECUTE SEND</button>
+                </form>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p><span class="terminal-prefix">$</span> &copy; 2025 AD/DEV | Shane Sanchez | EOF</p>
+    </footer>
+
+    <script>
+        // Function to add comments to drops
+        function addComment(dropId) {
+            const commentInput = document.getElementById(`comment-input-${dropId}`);
+            const commentsContainer = document.getElementById(`comments-${dropId}`);
+            
+            if (commentInput.value.trim() !== '') {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.textContent = commentInput.value;
+                
+                commentsContainer.appendChild(commentElement);
+                
+                // Clear input after adding comment
+                commentInput.value = '';
+                
+                // Save comments to localStorage
+                saveComments(dropId, commentsContainer.innerHTML);
+            }
+        }
+        
+        // Function to save comments to localStorage
+        function saveComments(dropId, comments) {
+            localStorage.setItem(`drop_${dropId}_comments`, comments);
+        }
+        
+        // Function to load comments from localStorage
+        function loadComments() {
+            const drops = [1, 2]; // Update this array if you add more drops
+            
+            drops.forEach(dropId => {
+                const savedComments = localStorage.getItem(`drop_${dropId}_comments`);
+                const commentsContainer = document.getElementById(`comments-${dropId}`);
+                
+                if (savedComments && commentsContainer) {
+                    commentsContainer.innerHTML = savedComments;
+                }
+            });
+        }
+        
+        // Load comments when page loads
+        window.onload = loadComments;
+        
+        // Add terminal cursor blinking effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                section.addEventListener('mouseover', function() {
+                    const cursor = this.querySelector('.cursor');
+                    if (cursor) {
+                        cursor.style.opacity = 1;
+                    }
+                });
+                
+                section.addEventListener('mouseout', function() {
+                    const cursor = this.querySelector('.cursor');
+                    if (cursor) {
+                        cursor.style.opacity = 0;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
