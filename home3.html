@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AD/DEV | Shane Sanchez</title>
+    <!-- IBM Plex Mono font for terminal aesthetic -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/IBM-Plex-Mono/1.3.0/css/ibm-plex-mono.min.css">
+    <style>
+        /* 
+        =============================================
+        GLOBAL STYLES & VARIABLES
+        =============================================
+        -- Main color scheme: Change these values to update the entire site color scheme --
+        */
+        :root {
+            --main-bg-color: #0a0a0a;          /* Main background color */
+            --terminal-text: #DFFF00;           /* Terminal text color - CHARTREUSE NEON */
+            --terminal-highlight: #F0FF41;      /* Highlight color for hover states */
+            --terminal-border: #DFFF00;         /* Border color */
+            --terminal-shadow: rgba(223, 255, 0, 0.4); /* Shadow color */
+            --terminal-item-bg: #0f0f0f;        /* Background for items/cards */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        body {
+            background-color: var(--main-bg-color);
+            color: var(--terminal-text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        /* 
+        =============================================
+        CONTAINER STYLES
+        =============================================
+        */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            border: 1px solid var(--terminal-border);
+            box-shadow: 0 0 15px var(--terminal-shadow);
+        }
+        
+        /* 
+        =============================================
+        HEADER STYLES
+        =============================================
+        -- Modify this section to change logo and navigation --
+        */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--terminal-border);
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px var(--terminal-shadow);
+        }
+        
+        .terminal-prefix {
+            color: var(--terminal-text);
+            margin-right: 0.5rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--terminal-text);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px var(--terminal-shadow);
+        }
+        
+        /* 
+        =============================================
+        SECTION STYLES
+        =============================================
+        -- These are the main content section styles --
+        */
+        section {
+            margin-bottom: 4rem;
+            padding: 1rem;
+            border: 1px solid var(--terminal-border);
+            position: relative;
+            box-shadow: 0 0 10px var(--terminal-shadow) inset;
+        }
+        
+        section::before {
+            content: attr(id) ">";
+            position: absolute;
+            top: -12px;
+            left: 10px;
+            background-color: var(--main-bg-color);
+            padding: 0 10px;
+            color: var(--terminal-text);
+            text-transform: uppercase;
+            text-shadow: 0 0 5px var(--terminal-shadow);
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid var(--terminal-border);
+            padding-bottom: 0.5rem;
+            text-shadow: 0 0 5px var(--terminal-shadow);
+        }
+        
+        /* 
+        =============================================
+        BIO SECTION STYLES
+        =============================================
+        -- Modify this section to change bio display --
+        */
+        .bio-content {
+            max-width: 800px;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+        
+        /* 
+        =============================================
+        WORK SECTION STYLES
+        =============================================
+        -- Modify this section to change work display --
+        */
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .work-item {
+            background-color: var(--terminal-item-bg);
+            padding: 1.5rem;
+            border: 1px solid var(--terminal-border);
+            box-shadow: 0 0 8px var(--terminal-shadow);
+        }
+        
+        .work-item h3 {
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 0 0 5px var(--terminal-shadow);
+        }
+        
+        /* Hidden work items - will be shown with show more button */
+        .work-item.hidden {
+            display: none;
+        }
+        
+        /* Show more button container */
+        .show-more-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        /* 
+        =============================================
+        DROPS SECTION STYLES
+        =============================================
+        -- Modify this section to change drops display --
+        */
+        .drops-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .drop-item {
+            background-color: var(--terminal-item-bg);
+            padding: 1.5rem;
+            border: 1px solid var(--terminal-border);
+            position: relative;
+            box-shadow: 0 0 8px var(--terminal-shadow);
+        }
+        
+        .drop-item h3 {
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 0 0 5px var(--terminal-shadow);
+        }
+        
+        /* 
+        =============================================
+        COMMENT SYSTEM STYLES
+        =============================================
+        -- Modify this section to change comment display --
+        */
+        .comment-section {
+            margin-top: 1rem;
+            border-top: 1px dashed var(--terminal-border);
+            padding-top: 1rem;
+        }
+        
+        .comments {
+            margin-bottom: 1rem;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .comment {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background-color: #101010;
+            border-left: 3px solid var(--terminal-border);
+        }
+        
+        .comment-form input {
+            width: 70%;
+            padding: 0.5rem;
+            background-color: var(--terminal-item-bg);
+            border: 1px solid var(--terminal-border);
+            color: #fff;
+            margin-right: 0.5rem;
+            box-shadow: 0 0 5px var(--terminal-shadow) inset;
+        }
+        
+        .comment-form button {
+            padding: 0.5rem;
+            background-color: var(--terminal-text);
+            color: var(--main-bg-color);
+            border: none;
+            cursor: pointer;
+            font-family: 'IBM Plex Mono', monospace;
+            box-shadow: 0 0 8px var(--terminal-shadow);
+        }
+        
+        .comment-form button:hover {
+            background-color: var(--terminal-highlight);
+            box-shadow: 0 0 12px var(--terminal-shadow);
+        }
+        
+        /* 
+        =============================================
+        IMAGE CONTAINER STYLES
+        =============================================
+        -- Modify this section to change image display --
+        */
+        .image-container {
+            width: 100%;
+            height: 180px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--terminal-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--terminal-item-bg);
+            box-shadow: 0 0 8px var(--terminal-shadow) inset;
+        }
+        
+        /* 
+        =============================================
+        REACH/CONTACT FORM STYLES
+        =============================================
+        -- Modify this section to change form display --
+        */
+        .reach-form {
+            max-width: 600px;
+            background-color: var(--terminal-item-bg);
+            padding: 2rem;
+            border: 1px solid var(--terminal-border);
+            box-shadow: 0 0 10px var(--terminal-shadow);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            text-shadow: 0 0 3px var(--terminal-shadow);
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--terminal-border);
+            background-color: var(--main-bg-color);
+            color: var(--terminal-text);
+            font-family: 'IBM Plex Mono', monospace;
+            box-shadow: 0 0 5px var(--terminal-shadow) inset;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            box-shadow: 0 0 8px var(--terminal-shadow);
+        }
+        
+        /* 
+        =============================================
+        BUTTON STYLES
+        =============================================
+        -- Modify this section to change button display --
+        */
+        button {
+            background-color: var(--terminal-text);
+            color: var(--main-bg-color);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 0 8px var(--terminal-shadow);
+        }
+        
+        button:hover {
+            background-color: var(--terminal-highlight);
+            box-shadow: 0 0 12px var(--terminal-shadow);
+        }
+        
+        /* 
+        =============================================
+        FOOTER STYLES
+        =============================================
+        -- Modify this section to change footer display --
+        */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--terminal-text);
+            border-top: 1px solid var(--terminal-border);
+            margin-top: 2rem;
+            text-shadow: 0 0 3px var(--terminal-shadow);
+        }
+        
+        /* 
+        =============================================
+        ANIMATION EFFECTS
+        =============================================
+        -- Modify this section to change animations --
+        */
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: var(--terminal-text);
+            animation: blink 1s step-end infinite;
+            margin-left: 5px;
+            box-shadow: 0 0 8px var(--terminal-shadow);
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* 
+        =============================================
+        TERMINAL WINDOW STYLES
+        =============================================
+        -- Modify this section to change terminal window display --
+        */
+        .terminal-window {
+            border: 1px solid var(--terminal-border);
+            padding: 5px;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 10px var(--terminal-shadow);
+        }
+        
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--terminal-border);
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 
+        =============================================
+        HEADER SECTION
+        =============================================
+        -- Update the header and navigation links as needed --
+        -->
+        <header>
+            <div class="logo"><span class="terminal-prefix">$</span>AD/DEV</div>
+            <nav>
+                <ul>
+                    <li><a href="#bios">$ Bios</a></li>
+                    <li><a href="#work">$ Work</a></li>
+                    <li><a href="#drops">$ Drops</a></li>
+                    <li><a href="#reach">$ Reach</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <!-- 
+        =============================================
+        BIOS SECTION
+        =============================================
+        -- Bio information section - update text here to change bio --
+        -->
+        <section id="bios">
+            <h2><span class="terminal-prefix">$</span>BIOS</h2>
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <span>biography.txt</span>
+                    <span>shane@addev:~</span>
+                </div>
+                <div class="bio-content">
+                    <p>&gt; SHANE SANCHEZ, A NATIVE CALIFORNIAN BORN IN 1989, CHANNELS HIS INNATE CREATIVE ENERGY INTO THE REALM OF SALES AND OPERATIONS ANALYSIS. WITH AN EARLY AFFINITY FOR AVANT-GARDE ART, EXPERIMENTAL MUSIC, AND POSTHUMAN PHILOSOPHY, SHANE'S JOURNEY LED HIM TO A PIVOTAL ROLE AS A SALES AND OPERATIONS ANALYST AT CONTRACT SERVICES GROUP, INC.</p>
+                    <br>
+                    <p>&gt; THIS ROLE HAS BECOME THE CORNERSTONE OF HIS CAREER, WHERE HE METICULOUSLY ANALYZES DATA TO DRIVE BUSINESS DECISIONS AND ENHANCE OPERATIONAL EFFICIENCY.</p>
+                    <span class="cursor"></span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 
+        =============================================
+        WORK SECTION
+        =============================================
+        -- The work section displays projects/work examples --
+        -- The first 3 items are visible by default --
+        -- The next 7 items are hidden and can be shown with "Show More" button --
+        -->
+        <section id="work">
+            <h2><span class="terminal-prefix">$</span>WORK</h2>
+            <div class="work-grid">
+                <!-- Visible work items by default -->
+                <div class="work-item">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Sales Analysis Visualization">
+                    </div>
+                    <h3>// Sales Analysis</h3>
+                    <p>Meticulously analyzing sales data to identify trends and opportunities for growth.</p>
+                </div>
+                <div class="work-item">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Operations Management Dashboard">
+                    </div>
+                    <h3>// Operations Management</h3>
+                    <p>Streamlining processes to enhance operational efficiency and reduce costs.</p>
+                </div>
+                <div class="work-item">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Data Visualization Example">
+                    </div>
+                    <h3>// Data Visualization</h3>
+                    <p>Creating insightful visualizations to communicate complex data patterns to stakeholders.</p>
+                </div>
+                
+                <!-- Hidden work items - these will be shown when "Show More" is clicked -->
+                <!-- UNCOMMENT THESE ITEMS AS NEEDED -->
+                <div class="work-item hidden">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Market Research Project">
+                    </div>
+                    <h3>// Market Research</h3>
+                    <p>Conducting comprehensive market research to identify new business opportunities and competitive advantages.</p>
+                </div>
+                <div class="work-item hidden">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Process Optimization">
+                    </div>
+                    <h3>// Process Optimization</h3>
+                    <p>Identifying bottlenecks and implementing solutions to optimize operational workflows.</p>
+                </div>
+                <div class="work-item hidden">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Financial Modeling">
+                    </div>
+                    <h3>// Financial Modeling</h3>
+                    <p>Developing sophisticated financial models to forecast performance and guide investment decisions.</p>
+                </div>
+                <div class="work-item hidden">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Customer Journey Mapping">
+                    </div>
+                    <h3>// Customer Journey</h3>
+                    <p>Mapping and analyzing customer interactions to enhance experience and increase retention.</p>
+                </div>
+                <div class="work-item hidden">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Strategic Planning">
+                    </div>
+                    <h3>// Strategic Planning</h3>
+                    <p>Crafting strategic plans aligned with business objectives to drive long-term growth.</p>
+                </div>
+                <div class="work-item hidden">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Risk Assessment">
+                    </div>
+                    <h3>// Risk Assessment</h3>
+                    <p>Identifying potential risks and developing mitigation strategies to safeguard business operations.</p>
+                </div>
+                <div class="work-item hidden">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Supply Chain Analysis">
+                    </div>
+                    <h3>// Supply Chain</h3>
+                    <p>Optimizing supply chain operations to reduce costs and improve delivery performance.</p>
+                </div>
+            </div>
+            
+            <!-- Show More/Less button -->
+            <div class="show-more-container">
+                <button id="show-more-work" onclick="toggleWorkItems()">SHOW MORE_</button>
+            </div>
+        </section>
+        
+        <!-- 
+        =============================================
+        DROPS SECTION
+        =============================================
+        -- This section displays "drops" with comment functionality --
+        -- Add more drop items as needed --
+        -->
+        <section id="drops">
+            <h2><span class="terminal-prefix">$</span>DROPS</h2>
+            <div class="drops-container">
+                <div class="drop-item">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Creative Concept 01">
+                    </div>
+                    <h3>// DROP_01</h3>
+                    <p>SHANE SANCHEZ, A NATIVE CALIFORNIAN BORN IN 1989, CHANNELS HIS INNATE CREATIVE ENERGY INTO THE REALM OF SALES AND OPERATIONS ANALYSIS.</p>
+                    <div class="comment-section">
+                        <h4>// Comments</h4>
+                        <div class="comments" id="comments-1">
+                            <div class="comment">Interesting approach to data analysis!</div>
+                        </div>
+                        <div class="comment-form">
+                            <input type="text" id="comment-input-1" placeholder="Add comment...">
+                            <button onclick="addComment(1)">POST</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="drop-item">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Creative Concept 02">
+                    </div>
+                    <h3>// DROP_02</h3>
+                    <p>WITH AN EARLY AFFINITY FOR AVANT-GARDE ART, EXPERIMENTAL MUSIC, AND POSTHUMAN PHILOSOPHY, ENHANCE OPERATIONAL EFFICIENCY.</p>
+                    <div class="comment-section">
+                        <h4>// Comments</h4>
+                        <div class="comments" id="comments-2">
+                            <div class="comment">Love how philosophy influences your approach!</div>
+                        </div>
+                        <div class="comment-form">
+                            <input type="text" id="comment-input-2" placeholder="Add comment...">
+                            <button onclick="addComment(2)">POST</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- You can uncomment and modify this template to add more drop items
+                <div class="drop-item">
+                    <div class="image-container">
+                        <img src="/api/placeholder/350/180" alt="Creative Concept 03">
+                    </div>
+                    <h3>// DROP_03</h3>
+                    <p>YOUR DROP TEXT HERE</p>
+                    <div class="comment-section">
+                        <h4>// Comments</h4>
+                        <div class="comments" id="comments-3">
+                            <!-- Default comments go here -->
+                        <!--</div>
+                        <div class="comment-form">
+                            <input type="text" id="comment-input-3" placeholder="Add comment...">
+                            <button onclick="addComment(3)">POST</button>
+                        </div>
+                    </div>
+                </div>
+                -->
+            </div>
+        </section>
+        
+        <!-- 
+        =============================================
+        REACH SECTION
+        =============================================
+        -- Contact form section --
+        -- Update form fields as needed --
+        -->
+        <section id="reach">
+            <h2><span class="terminal-prefix">$</span>REACH</h2>
+            <div class="reach-form">
+                <div class="terminal-header">
+                    <span>contact_form.sh</span>
+                    <span>shane@addev:~</span>
+                </div>
+                <form>
+                    <div class="form-group">
+                        <label for="name"># Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"># Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message"># Message:</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit">EXECUTE SEND</button>
+                </form>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p><span class="terminal-prefix">$</span> &copy; 2025 AD/DEV | Shane Sanchez | EOF</p>
+    </footer>
+
+    <script>
+        // =============================================
+        // COMMENT SYSTEM FUNCTIONALITY
+        // =============================================
+        // Function to add comments to drops
+        function addComment(dropId) {
+            const commentInput = document.getElementById(`comment-input-${dropId}`);
+            const commentsContainer = document.getElementById(`comments-${dropId}`);
+            
+            if (commentInput.value.trim() !== '') {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.textContent = commentInput.value;
+                
+                commentsContainer.appendChild(commentElement);
+                
+                // Clear input after adding comment
+                commentInput.value = '';
+                
+                // Save comments to localStorage
+                saveComments(dropId, commentsContainer.innerHTML);
+            }
+        }
+        
+        // Function to save comments to localStorage
+        function saveComments(dropId, comments) {
+            localStorage.setItem(`drop_${dropId}_comments`, comments);
+        }
+        
+        // Function to load comments from localStorage
+        function loadComments() {
+            // Update this array if you add more drops
+            const drops = [1, 2, 3, 4, 5]; 
+            
+            drops.forEach(dropId => {
+                const commentsContainer = document.getElementById(`comments-${dropId}`);
+                if (commentsContainer) {
+                    const savedComments = localStorage.getItem(`drop_${dropId}_comments`);
+                    if (savedComments) {
+                        commentsContainer.innerHTML = savedComments;
+                    }
+                }
+            });
+        }
+        
+        // =============================================
+        // WORK SECTION SHOW MORE/LESS FUNCTIONALITY
+        // =============================================
+        // Toggle visibility of hidden work items
+        function toggleWorkItems() {
+            const hiddenItems = document.querySelectorAll('.work-item.hidden');
+            const button = document.getElementById('show-more-work');
+            
+            // Check if items are currently hidden
+            const isHidden = hiddenItems[0].style.display !== 'block';
+            
+            // Toggle visibility
+            if (isHidden) {
+                hiddenItems.forEach(item => {
+                    item.style.display = 'block';
+                });
+                button.textContent = 'SHOW LESS_';
+            } else {
+                hiddenItems.forEach(item => {
+                    item.style.display = 'none';
+                });
+                button.textContent = 'SHOW MORE_';
+            }
+        }
+        
+        // =============================================
+        // CURSOR BLINKING EFFECT
+        // =============================================
+        // Add terminal cursor blinking effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                section.addEventListener('mouseover', function() {
+                    const cursor = this.querySelector('.cursor');
+                    if (cursor) {
+                        cursor.style.opacity = 1;
+                    }
+                });
+                
+                section.addEventListener('mouseout', function() {
+                    const cursor = this.querySelector('.cursor');
+                    if (cursor) {
+                        cursor.style.opacity = 0;
+                    }
+                });
+            });
+            
+            // Load saved comments when page loads
+            loadComments();
+        });
+    </script>
+</body>
+</html>
